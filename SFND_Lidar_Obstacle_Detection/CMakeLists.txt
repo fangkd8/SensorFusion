@@ -8,7 +8,7 @@ SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++14 -Wall -march=native")
 
 project(playback)
 
-find_package(PCL 1.10.1 REQUIRED)
+find_package(PCL REQUIRED)
 
 include_directories(
     ${PCL_INCLUDE_DIRS}
