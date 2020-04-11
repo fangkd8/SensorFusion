@@ -62,10 +62,16 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
       Box box = processor.BoundingBox(clusters[i]);
       renderBox(viewer, box, i);
     }
-
-
 }
 
+void cityblock(pcl::visualization::PCLVisualizer::Ptr& viewer){
+  ProcessPointClouds<pcl::PointXYZI>* pointProcessorI = new ProcessPointClouds<pcl::PointXYZI>();
+  pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = pointProcessorI->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
+  
+  pcl::PointCloud<pcl::PointXYZI>::Ptr Cloud = pointProcessorI->FilterCloud(inputCloud, 0.1f, Eigen::Vector4f(-200, -200, -200, 1), Eigen::Vector4f(200, 200, 200, 1));
+  std::cout << "Filtered point cloud size is " << Cloud->points.size() << std::endl;
+  renderPointCloud(viewer, Cloud, "Cloud");
+}
 
 //setAngle: SWITCH CAMERA ANGLE {XY, TopDown, Side, FPS}
 void initCamera(CameraAngle setAngle, pcl::visualization::PCLVisualizer::Ptr& viewer)
@@ -98,7 +104,7 @@ int main (int argc, char** argv)
     pcl::visualization::PCLVisualizer::Ptr viewer (new pcl::visualization::PCLVisualizer ("3D Viewer"));
     CameraAngle setAngle = XY;
     initCamera(setAngle, viewer);
-    simpleHighway(viewer);
+    cityblock(viewer);
 
     while (!viewer->wasStopped ())
     {
