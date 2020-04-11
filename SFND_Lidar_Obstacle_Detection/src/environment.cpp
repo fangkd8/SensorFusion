@@ -68,9 +68,23 @@ void cityblock(pcl::visualization::PCLVisualizer::Ptr& viewer){
   ProcessPointClouds<pcl::PointXYZI>* pointProcessorI = new ProcessPointClouds<pcl::PointXYZI>();
   pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = pointProcessorI->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
   
-  pcl::PointCloud<pcl::PointXYZI>::Ptr Cloud = pointProcessorI->FilterCloud(inputCloud, 0.1f, Eigen::Vector4f(-200, -200, -200, 1), Eigen::Vector4f(200, 200, 200, 1));
+  pcl::PointCloud<pcl::PointXYZI>::Ptr Cloud = pointProcessorI->FilterCloud(inputCloud, 0.1f, Eigen::Vector4f(-20, -5, -2, 1), Eigen::Vector4f(50, 7.5, 20, 1));
   std::cout << "Filtered point cloud size is " << Cloud->points.size() << std::endl;
-  renderPointCloud(viewer, Cloud, "Cloud");
+  // renderPointCloud(viewer, Cloud, "Cloud");
+
+  std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segPts = pointProcessorI->SegmentPlane(Cloud, 100, 0.2);
+  renderPointCloud(viewer, segPts.first, "ground", Color(0, 1, 0));
+  renderPointCloud(viewer, segPts.second, "obstacles", Color(1, 0, 0));
+
+  std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> clusters = pointProcessorI->Clustering(segPts.second, 0.5, 50, 1500);
+  // std::vector<Color> colors = {Color(1, 0, 0), Color(0, 1, 0), Color(0, 0, 1)};
+  srand(time(NULL));
+  for (int i = 0; i < clusters.size(); i++){
+    Color c(rand(), rand(), rand());
+    renderPointCloud(viewer, clusters[i], std::to_string(i), c);
+    Box box = pointProcessorI->BoundingBox(clusters[i]);
+    renderBox(viewer, box, i);
+  }
 }
 
 //setAngle: SWITCH CAMERA ANGLE {XY, TopDown, Side, FPS}
