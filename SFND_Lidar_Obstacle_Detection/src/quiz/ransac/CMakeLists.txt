@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 
 project(playback)
 
-find_package(PCL 1.10.1 REQUIRED)
+find_package(PCL 1.2 REQUIRED)
 
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
@@ -18,6 +18,6 @@ list(REMOVE_ITEM PCL_LIBRARIES "vtkproj4")
 add_executable (quizRansac ransac2d.cpp ../../render/render.cpp)
 target_link_libraries (quizRansac ${PCL_LIBRARIES})
 
-
-
+add_executable (Ransac3d ransac3d.cpp ../../render/render.cpp)
+target_link_libraries (Ransac3d ${PCL_LIBRARIES})
 
