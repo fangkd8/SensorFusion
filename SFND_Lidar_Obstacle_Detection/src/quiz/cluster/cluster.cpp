@@ -171,7 +171,7 @@ int main ()
   	++clusterId;
   }
   if(clusters.size()==0)
-  	renderPointCloud(viewer,cloud,"data");
+  	renderPointCloud(viewer, cloud, "data");
 	
   while (!viewer->wasStopped ()){
   	viewer->spinOnce ();
