@@ -101,3 +101,37 @@ void detKeypointsShiTomasi(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool b
         cv::waitKey(0);
     }
 }
+
+void detKeypointsHARRIS(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis){
+  cout << "begin" << endl;
+  cv::Mat dst, dst_norm, dst_norm_scaled;
+  dst = cv::Mat::zeros( img.size(), CV_32FC1 );
+  int blockSize = 2;
+  int apertureSize = 3;
+  double k = 0.04;
+  int thresh = 100;
+
+  cv::cornerHarris( img, dst, blockSize, apertureSize, k, cv::BORDER_DEFAULT );
+  cv::normalize( dst, dst_norm, 0, 255, cv::NORM_MINMAX, CV_32FC1, cv::Mat() );
+  cv::convertScaleAbs( dst_norm, dst_norm_scaled );
+
+  for (int j = 0; j < dst_norm.rows; j++){
+    for (int i = 0; i < dst_norm.cols; i++){
+      if( (int) dst_norm.at<float>(j,i) > thresh ){
+        cv::KeyPoint kpt;
+        kpt.pt.x = i;
+        kpt.pt.y = j;
+        keypoints.push_back(kpt);
+      }
+    }
+  }
+  cout << "Harris detection with n=" << keypoints.size() << endl;
+  if (bVis){
+    cv::Mat visImage = img.clone();
+    cv::drawKeypoints(img, keypoints, visImage, cv::Scalar::all(-1), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+    string windowName = "Harris Corner Detector Results";
+    cv::namedWindow(windowName, 6);
+    imshow(windowName, visImage);
+    cv::waitKey(0);
+  }
+}
