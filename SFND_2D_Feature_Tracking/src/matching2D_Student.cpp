@@ -135,3 +135,15 @@ void detKeypointsHARRIS(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis
     cv::waitKey(0);
   }
 }
+
+void detKeypointsFAST(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis){
+  cv::Ptr<cv::FastFeatureDetector> detect = cv::FastFeatureDetector::create();
+  detect->detect(img, keypoints);
+  cout << "FAST detection with n=" << keypoints.size() << endl;
+}
+
+void detKeypointsBRISK(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis){
+  cv::Ptr<cv::BRISK> detect = cv::BRISK::create();
+  detect->detect(img, keypoints);
+  cout << "BRISK detection with n=" << keypoints.size() << endl;
+}
