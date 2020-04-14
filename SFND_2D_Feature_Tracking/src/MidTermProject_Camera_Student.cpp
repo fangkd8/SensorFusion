@@ -74,41 +74,32 @@ int main(int argc, const char *argv[]){
 
     // extract 2D keypoints from current image
     vector<cv::KeyPoint> keypoints; // create empty feature list for current image
-    string detectorType = "FAST";
+    string detectorType = "ORB";
 
     //// STUDENT ASSIGNMENT
     //// TASK MP.2 -> add the following keypoint detectors in file matching2D.cpp and enable string-based selection based on detectorType
     //// -> HARRIS, FAST, BRISK, ORB, AKAZE, SIFT
 
-    if (detectorType.compare("SHITOMASI") == 0)
-    {
-        detKeypointsShiTomasi(keypoints, imgGray, false);
+    if (detectorType.compare("SHITOMASI") == 0){
+      detKeypointsShiTomasi(keypoints, imgGray, false);
     }
-    else if (detectorType.compare("HARRIS") == 0)
-    {
-        //...
+    else if (detectorType.compare("HARRIS") == 0){
       detKeypointsHARRIS(keypoints, imgGray, false);
     }
-    else if (detectorType.compare("FAST") == 0)
-    {
-        //...
+    else if (detectorType.compare("FAST") == 0){
       detKeypointsFAST(keypoints, imgGray, false);
     }
-    else if (detectorType.compare("BRISK") == 0)
-    {
+    else if (detectorType.compare("BRISK") == 0){
       detKeypointsBRISK(keypoints, imgGray, false);
     }
-    else if (detectorType.compare("ORB"))
-    {
-        //...
+    else if (detectorType.compare("ORB") == 0){
+      detKeypointsORB(keypoints, imgGray, false);
     }
-    else if (detectorType.compare("AKAZE"))
-    {
-        //...
+    else if (detectorType.compare("AKAZE") == 0){
+      detKeypointsAKAZE(keypoints, imgGray, false);
     }
-    else if (detectorType.compare("SIFT"))
-    {
-        //...
+    else if (detectorType.compare("SIFT") == 0){
+      detKeypointsSIFT(keypoints, imgGray, false);
     }
     //// EOF STUDENT ASSIGNMENT
 
@@ -163,7 +154,7 @@ int main(int argc, const char *argv[]){
     //// -> BRIEF, ORB, FREAK, AKAZE, SIFT
 
     cv::Mat descriptors;
-    string descriptorType = "BRISK"; // BRIEF, ORB, FREAK, AKAZE, SIFT
+    string descriptorType = "ORB"; // BRIEF, ORB, FREAK, AKAZE, SIFT
     descKeypoints((dataBuffer.begin())->keypoints, (dataBuffer.begin())->cameraImg, descriptors, descriptorType);
     //// EOF STUDENT ASSIGNMENT
 

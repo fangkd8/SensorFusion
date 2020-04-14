@@ -48,10 +48,17 @@ void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descr
 
         extractor = cv::BRISK::create(threshold, octaves, patternScale);
     }
-    else
-    {
-
-        //...
+    else if (descriptorType.compare("ORB") == 0){
+      extractor = cv::ORB::create();
+    }
+    else if (descriptorType.compare("FREAK") == 0){
+      extractor = cv::xfeatures2d::FREAK::create();
+    }
+    else if (descriptorType.compare("AKAZE") == 0){
+      extractor = cv::AKAZE::create();
+    }
+    else if (descriptorType.compare("SIFT") == 0){
+      extractor = cv::xfeatures2d::SIFT::create(400);
     }
 
     // perform feature description
@@ -146,4 +153,22 @@ void detKeypointsBRISK(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool 
   cv::Ptr<cv::BRISK> detect = cv::BRISK::create();
   detect->detect(img, keypoints);
   cout << "BRISK detection with n=" << keypoints.size() << endl;
+}
+
+void detKeypointsORB(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis){
+  cv::Ptr<cv::ORB> detect = cv::ORB::create();
+  detect->detect(img, keypoints);
+  cout << "ORB detection with n=" << keypoints.size() << endl;
+}
+
+void detKeypointsAKAZE(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis){
+  cv::Ptr<cv::AKAZE> detect = cv::AKAZE::create();
+  detect->detect(img, keypoints);
+  cout << "AKAZE detection with n=" << keypoints.size() << endl;
+}
+
+void detKeypointsSIFT(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis){
+  cv::Ptr<cv::xfeatures2d::SIFT> detect = cv::xfeatures2d::SIFT::create();
+  detect->detect(img, keypoints);
+  cout << "SIFT detection with n=" << keypoints.size() << endl;
 }
