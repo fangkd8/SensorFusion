@@ -59,8 +59,8 @@ int main(int argc, const char *argv[]){
     for (auto j = 0; j < desTypes.size(); j++){
       vector<DataFrame> dataBuffer;
       string descriptorType = desTypes[j];
-      // if (descriptorType.compare("ORB") == 0)
-      //   continue;
+      if (descriptorType.compare("ORB") == 0 && detectorType.compare("SIFT") == 0)
+        continue;
       det_des_matches << detectorType << "+" << descriptorType;
       det_des_time << detectorType << "+" << descriptorType;
       for (size_t imgIndex = 0; imgIndex <= imgEndIndex - imgStartIndex; imgIndex++){
